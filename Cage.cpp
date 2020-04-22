@@ -90,3 +90,12 @@ bool Cage::removeAnimalFromCage(const Dinosaur &newAnimal) {
 	return true;
 }
 
+///////////////////////////////////////////////
+ostream&operator<<(ostream &os, const Cage &cage) {
+	os << cage.sizeOfCage << cage.climate << cage.era ;
+	for (int i = 0; i < cage.size; i++) {
+		os << cage.animals[i];
+	}
+	return os;
+}
+

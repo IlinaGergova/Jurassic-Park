@@ -1,5 +1,7 @@
 #pragma once
 #include"ParkEnumerables.h"
+#include<iostream>
+using namespace std;
 
 class Dinosaur {
 	char*name;
@@ -25,4 +27,5 @@ public:
 	Food getFood()const;
 
 	friend bool operator==(const Dinosaur&other1,const Dinosaur&other2);
+	friend ostream&operator<<(ostream &os, const Dinosaur &dino);
 };

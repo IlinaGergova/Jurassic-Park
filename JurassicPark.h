@@ -9,6 +9,7 @@ class JurassicPark {
 	int fish;
 	int plants;
 	int meat;
+	int staff;
 
 	void copy(const JurassicPark&other);
 	void erase();
@@ -23,4 +24,10 @@ public:
 	void makeCage(SizeOfCage cageSize, Climate climate);
 	void removeAnimal(Dinosaur animal);
 	void foodDelivery(int fishToAdd, int plantsToAdd, int meatToAdd);
+	void addStaff(int staffToAdd);
+
+	friend ostream& operator<<(ostream& os, const JurassicPark& park);
+	friend istream& operator>>(istream& is, const JurassicPark& park);
+
+	void print();
 };

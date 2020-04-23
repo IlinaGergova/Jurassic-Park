@@ -136,6 +136,7 @@ void JurassicPark::foodDelivery(int fishToAdd, int plantsToAdd, int meatToAdd) {
 	meat += meatToAdd;
 }
 
+
 void JurassicPark::addStaff(int staffToAdd) {
 	staff += staffToAdd;
 }
@@ -166,3 +167,4 @@ void JurassicPark::print() {
 	cout << "================================" << endl;
 	
 }
+

@@ -91,8 +91,10 @@ bool operator==(const Dinosaur&other1, const Dinosaur&other2) {
 	return false;
 }
 
+
 /////////////////////////////////////////////////////////
 ostream&operator<<(ostream &os, const Dinosaur &dino) {
 	os << dino.name << dino.gender << dino.era << dino.group << dino.kind << dino.food;
 	return os;
 }
+

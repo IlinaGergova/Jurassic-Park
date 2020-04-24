@@ -20,6 +20,5 @@ public:
 	bool addAnimalInCage(const Dinosaur &newAnimal);
 
 	bool removeAnimalFromCage(const Dinosaur &newAnimal);
-
 	friend ostream&operator<<(ostream &os, const Cage &cage);
 };

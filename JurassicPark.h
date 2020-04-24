@@ -24,7 +24,6 @@ public:
 	void makeCage(SizeOfCage cageSize, Climate climate);
 	void removeAnimal(Dinosaur animal);
 	void foodDelivery(int fishToAdd, int plantsToAdd, int meatToAdd);
-
 	void addStaff(int staffToAdd);
 
 	friend ostream& operator<<(ostream& os, const JurassicPark& park);
@@ -32,4 +31,3 @@ public:
 
 	void print();
 };
-

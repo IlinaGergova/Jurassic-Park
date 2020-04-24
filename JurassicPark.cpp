@@ -1,7 +1,7 @@
 #include "JurassicPark.h"
 #include <iostream>
 #include <cstdlib>
-#include <time.h> 
+#include <ctime> 
 using namespace std;
 
 void JurassicPark::copy(const JurassicPark&other) {
@@ -23,9 +23,10 @@ void JurassicPark::erase() {
 
 void JurassicPark::resize() {
 	Cage* newCages = new Cage[cap + 10];
-	for (int i = 0; i < cap; i++) {
+	for (int i = 0; i < size; i++) {
 		newCages[i] = cages[i];
 	}
+
 	erase();
 	cages = newCages;
 	delete[] newCages;
@@ -35,19 +36,18 @@ void JurassicPark::resize() {
 const int MAX_CAGES = 10;
 
 JurassicPark::JurassicPark() {
+	srand(time(NULL));
+
 	fish = 0;
 	plants = 0;
 	meat = 0;
-
-	srand(time(NULL));
 
 	size = rand() % MAX_CAGES + 1;
 	cap = size;
 	staff = size;
 
 	cages = new Cage[cap];
-	for (int i = 0; i < size; i++) {
-
+	for (int i = 0; i < cap; i++) {
 		int number = rand() % 3 + 1;
 		SizeOfCage cageSize;
 		switch (number) {
@@ -87,8 +87,8 @@ JurassicPark&JurassicPark::operator=(const JurassicPark&other) {
 
 void JurassicPark::addAnimalInPark(const Dinosaur &newDino) {
 	Food dinoFood = newDino.getFood();
-	if ((dinoFood == Fish && fish <= 0) && (dinoFood == Meat && meat <= 0) && (dinoFood == Plants && plants <= 0)) {
-		cout << "Not enough " << dinoFood << ". Add more food first!" << endl;
+	if ((dinoFood == Fish && fish <= 0) || (dinoFood == Meat && meat <= 0) || (dinoFood == Plants && plants <= 0)) {
+		cout << "Not enough food for that dinosaur. Add more food first!" << endl;
 		return;
 	}
 
@@ -103,7 +103,6 @@ void JurassicPark::addAnimalInPark(const Dinosaur &newDino) {
 		}
 	}
 	cout << "No suitable cage.Please create one for " << newDino.getGroup() << " dinosaur." << endl;
-
 }
 
 void JurassicPark::makeCage(SizeOfCage cageSize, Climate climate) {
@@ -113,7 +112,7 @@ void JurassicPark::makeCage(SizeOfCage cageSize, Climate climate) {
 	}
 
 	Cage newCage(cageSize, climate);
-	if (size == cap) {
+	if (size  == cap) {
 		resize();
 	}
 	cages[size] = newCage;
@@ -136,7 +135,6 @@ void JurassicPark::foodDelivery(int fishToAdd, int plantsToAdd, int meatToAdd) {
 	meat += meatToAdd;
 }
 
-
 void JurassicPark::addStaff(int staffToAdd) {
 	staff += staffToAdd;
 }
@@ -156,7 +154,7 @@ void JurassicPark::print() {
 	cout << "Number of cages: " << size << endl;
 	for (int i = 0; i < size; i++) {
 		cout << "--------------------------------" << endl;
-		cout << cages[i];
+		cout << cages[i] << endl;
 	}
 	cout << "--------------------------------" << endl;
 	cout << "================================" << endl;
@@ -167,4 +165,3 @@ void JurassicPark::print() {
 	cout << "================================" << endl;
 	
 }
-

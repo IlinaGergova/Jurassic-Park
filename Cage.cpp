@@ -18,7 +18,8 @@ void Cage::copy(const Cage&other) {
 }
 
 void Cage::erase() {
-	delete[]animals;
+	delete[] animals;
+	animals = nullptr;
 }
 
 Cage::Cage(SizeOfCage newSizeOfCage, Climate newClimate) {
@@ -87,14 +88,36 @@ bool Cage::removeAnimalFromCage(const Dinosaur &newAnimal) {
 		animals[i] = animals[i + 1];
 	}
 	size--;
+
+	if (size == 0) {
+		era = NoEra;
+	}
+
 	return true;
 }
 
 ///////////////////////////////////////////////
 ostream&operator<<(ostream &os, const Cage &cage) {
-	os << cage.sizeOfCage << cage.climate << cage.era ;
+	switch (cage.sizeOfCage) {
+		case 1: os << "Small cage "; break;
+		case 3: os << "Medium cage "; break;
+		case 10: os << "Large cage "; break;
+	}
+	switch (cage.climate) {
+		case Land: os << "with land climate"; break;
+		case Water: os << "with water climate"; break;
+		case Air: os << "with air climate"; break;
+	}
+	switch (cage.era) {
+		case Triassic: os << ", Triassic era" << endl; break;
+		case Jurassic: os << ", Jurrasic era" << endl; break;
+		case Cretaceous: os << ", Cretaceus era" << endl; break;
+		case NoEra: os << ", no era yet" << endl; break;
+	}
+	
+
 	for (int i = 0; i < cage.size; i++) {
-		os << cage.animals[i];
+		os << "-> " << cage.animals[i] << endl;
 	}
 	return os;
 }

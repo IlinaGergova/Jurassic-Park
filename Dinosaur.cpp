@@ -91,10 +91,24 @@ bool operator==(const Dinosaur&other1, const Dinosaur&other2) {
 	return false;
 }
 
-
 /////////////////////////////////////////////////////////
 ostream&operator<<(ostream &os, const Dinosaur &dino) {
-	os << dino.name << dino.gender << dino.era << dino.group << dino.kind << dino.food;
+	os << dino.name << " ";
+	switch (dino.gender) {
+		case Female: os << "female "; break;
+		case Male: os << "male  "; break;
+	}
+	switch (dino.group) {
+		case Flying: os << "flying "; break;
+		case Aquatic: os << "aquatic "; break;
+		case Herbivore: os << "herbivore "; break;
+		case Carnivore: os << "carnivore "; break;
+	}
+	os << dino.kind << " ";
+	switch (dino.group) {
+		case Fish: os << "eats fish" << endl; break;
+		case Meat: os << "eats meat" << endl; break;
+		case Plants: os << "eats plants" << endl; break;
+	}
 	return os;
 }
-

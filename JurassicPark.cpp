@@ -4,86 +4,44 @@
 #include <ctime> 
 using namespace std;
 
-void JurassicPark::copy(const JurassicPark&other) {
-	cages = new Cage[other.cap];
-	for (int i = 0; i < other.size; i++) {
-		cages[i] = other.cages[i];
-	}
-	size = other.size;
-	cap = other.cap;
-	fish = other.fish;
-	plants = other.plants;
-	meat = other.meat;
-	staff = other.staff;
-}
 
-void JurassicPark::erase() {
-	delete[]cages;
-}
-
-void JurassicPark::resize() {
-	Cage* newCages = new Cage[cap + 10];
-	for (int i = 0; i < size; i++) {
-		newCages[i] = cages[i];
-	}
-
-	erase();
-	cages = newCages;
-	delete[] newCages;
-	cap += 10;
-}
-
-const int MAX_CAGES = 10;
-
-JurassicPark::JurassicPark() {
-	srand(time(NULL));
-
+JurassicPark::JurassicPark(int MAX_CAGES) {
 	fish = 0;
 	plants = 0;
 	meat = 0;
+	if (MAX_CAGES == 0) {
+		size = 0;
+		staff = size;
+	}
+	else {
+		srand(time(NULL));
 
-	size = rand() % MAX_CAGES + 1;
-	cap = size;
-	staff = size;
+		size = rand() % MAX_CAGES + 1;
+		staff = size;
 
-	cages = new Cage[cap];
-	for (int i = 0; i < cap; i++) {
-		int number = rand() % 3 + 1;
-		SizeOfCage cageSize;
-		switch (number) {
+		for (int i = 0; i < size; i++) {
+			int number = rand() % 3 + 1;
+			SizeOfCage cageSize;
+			switch (number) {
 			case 1:cageSize = Small;
 			case 2:cageSize = Medium;
 			case 3:cageSize = Large;
-		}
+			}
 
-		number = rand() % 3 + 1;
-		Climate climate;
-		switch (number) {
+			number = rand() % 3 + 1;
+			Climate climate;
+			switch (number) {
 			case 1:climate = Air;
 			case 2:climate = Water;
 			case 3:climate = Land;
+			}
+
+			Cage tempCage(cageSize, climate);
+			cages.push_back(tempCage);
 		}
-
-		Cage tempCage(cageSize, climate);
-		cages[i] = tempCage;
 	}
 }
 
-JurassicPark::JurassicPark(const JurassicPark&other) {
-	copy(other);
-}
-
-JurassicPark::~JurassicPark() {
-	erase();
-}
-
-JurassicPark&JurassicPark::operator=(const JurassicPark&other) {
-	if (this != &other) {
-		erase();
-		copy(other);
-	}
-	return*this;
-}
 
 void JurassicPark::addAnimalInPark(const Dinosaur &newDino) {
 	Food dinoFood = newDino.getFood();
@@ -95,9 +53,9 @@ void JurassicPark::addAnimalInPark(const Dinosaur &newDino) {
 	for (int i = 0; i < size; i++) {
 		if (cages[i].addAnimalInCage(newDino)) {
 			switch (dinoFood) {
-				case Fish: fish--;break;
-				case Meat: meat--;break;
-				case Plants: plants--;break;
+			case Fish: fish--; break;
+			case Meat: meat--; break;
+			case Plants: plants--; break;
 			}
 			return;
 		}
@@ -112,10 +70,18 @@ void JurassicPark::makeCage(SizeOfCage cageSize, Climate climate) {
 	}
 
 	Cage newCage(cageSize, climate);
-	if (size  == cap) {
-		resize();
+
+	cages.push_back(newCage);
+	size++;
+}
+
+void JurassicPark::addCageWithData(const Cage &newCage) {
+	if (staff <= size) {
+		cout << "Not enough staff. Please add." << endl;
+		return;
 	}
-	cages[size] = newCage;
+
+	cages.push_back(newCage);
 	size++;
 }
 
@@ -130,22 +96,42 @@ void JurassicPark::removeAnimal(Dinosaur animal) {
 }
 
 void JurassicPark::foodDelivery(int fishToAdd, int plantsToAdd, int meatToAdd) {
+	meat += meatToAdd;
 	fish += fishToAdd;
 	plants += plantsToAdd;
-	meat += meatToAdd;
 }
-
 void JurassicPark::addStaff(int staffToAdd) {
 	staff += staffToAdd;
 }
 
-ostream& operator<<(ostream& os, const JurassicPark& park) {
-	os.write((char*)&park, sizeof(park));
+ostream& operator<<(ostream& os, JurassicPark& park) {
+	os << park.fish << " " << park.plants << " " << park.meat << " " << park.staff << '\n';
+	for (int i = 0; i < park.size; i++) {
+		park.cages[i].saveCage(os);
+	}
 	return os;
 }
 
-istream& operator>>(istream& is, const JurassicPark& park) {
-	is.read((char*)&park, sizeof(park));
+istream& operator>>(istream& is, JurassicPark& park) {
+	int fish, plants, meat, staff;
+	is >> fish >> plants >> meat >> staff;
+
+	park.addStaff(staff);
+	park.foodDelivery(fish, plants, meat);
+
+	char symbol;
+
+	is.get();
+	symbol = is.peek();
+	//cout << "cage:" << symbol << endl;
+	while (symbol == '#' && !is.eof()) {
+		is.get();
+		park.addCageWithData(loadCage(is));
+		//is.get();
+		symbol = is.peek();
+		//cout << "cage:" << symbol << endl;
+	}
+
 	return is;
 }
 
@@ -163,5 +149,5 @@ void JurassicPark::print() {
 	cout << "Quantity of meat: " << meat << endl;
 	cout << "People in the staff: " << staff << endl;
 	cout << "================================" << endl;
-	
+
 }

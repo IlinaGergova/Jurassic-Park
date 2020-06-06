@@ -1,20 +1,15 @@
 #include<iostream>
 #include<fstream>
 #include<cstring>
+#include<string>
 #include"JurassicPark.h"
 using namespace std;
 
-const int COMMAND_LEN = 12;
- 
 Dinosaur dinoCreator() {
 	bool flag = true;
 	while (true) {
-		int nameLen;
-		cout << "Enter the length of the name: ";
-		cin >> nameLen;
-		cout << endl;
 
-		char*name = new char[nameLen];
+		string name;
 		cout << "Enter the name: ";
 		cin >> name;
 		cout << endl;
@@ -27,30 +22,24 @@ Dinosaur dinoCreator() {
 
 		Gender gender;
 		switch (commandChar) {
-			case 'm': gender = Male; break;
-			case 'f': gender = Female; break;
-			default: cout << "No such gender. Enter dinosaur data again!"; flag = false;
+		case 'm': gender = Male; break;
+		case 'f': gender = Female; break;
+		default: cout << "No such gender. Enter dinosaur data again!"; flag = false;
 		}
 		cout << endl;
 		cout << "Enter era. Options to choose from - 't' for Triassic, 'j' for Jurassic or 'c' for Cretaceous: ";
 		cin >> commandChar;
 		Era era;
 		switch (commandChar) {
-			case 't': era = Triassic; break;
-			case 'j': era = Jurassic; break;
-			case 'c': era = Cretaceous; break;
-			default: cout << "No such era. Enter dinosaur data again!"; flag = false;
+		case 't': era = Triassic; break;
+		case 'j': era = Jurassic; break;
+		case 'c': era = Cretaceous; break;
+		default: cout << "No such era. Enter dinosaur data again!"; flag = false;
 		}
 
 		cout << endl;
 
-		int kindLen;
-		cout << "Enter the length of the kind: ";
-		cin >> kindLen;
-
-		cout << endl;
-
-		char*kind = new char[kindLen];
+		string kind;
 		cout << "Enter the kind: ";
 		cin >> kind;
 
@@ -63,11 +52,11 @@ Dinosaur dinoCreator() {
 
 		Group group;
 		switch (commandChar) {
-			case 'f': group = Flying; break;
-			case 'a': group = Aquatic; break;
-			case 'h': group = Herbivore; break;
-			case 'c': group = Carnivore; break;
-			default: cout << "No such group. Enter dinosaur data again!"; flag = false;
+		case 'f': group = Flying; break;
+		case 'a': group = Aquatic; break;
+		case 'h': group = Herbivore; break;
+		case 'c': group = Carnivore; break;
+		default: cout << "No such group. Enter dinosaur data again!"; flag = false;
 		}
 
 		cout << "Enter the food. Options to choose from - 'f' for Fish, 'm' for Meat or 'p' for Plants: ";
@@ -77,10 +66,10 @@ Dinosaur dinoCreator() {
 
 		Food food;
 		switch (commandChar) {
-			case 'f': food = Fish; break;
-			case 'm': food = Meat; break;
-			case 'p': food = Plants; break;
-			default: cout << "No such food. Enter dinosaur data again!"; flag = false;
+		case 'f': food = Fish; break;
+		case 'm': food = Meat; break;
+		case 'p': food = Plants; break;
+		default: cout << "No such food. Enter dinosaur data again!"; flag = false;
 		}
 		if (flag) {
 			Dinosaur dino(name, gender, era, group, kind, food);
@@ -107,10 +96,10 @@ void createCage(JurassicPark & park) {
 	cout << endl;
 	SizeOfCage size;
 	switch (commandChar) {
-		case's':size = Small; break;
-		case'm':size = Medium; break;
-		case'l':size = Large; break;
-		default:cout << "No such size. Enter again!"; return;
+	case's':size = Small; break;
+	case'm':size = Medium; break;
+	case'l':size = Large; break;
+	default:cout << "No such size. Enter again!"; return;
 	}
 
 	cout << "Enter climate. Options to choose from - 'a' for Air, 'l' for Land or 'w' for Water: ";
@@ -119,10 +108,10 @@ void createCage(JurassicPark & park) {
 	cout << endl;
 	Climate climate;
 	switch (commandChar) {
-		case'a':climate = Air; break;
-		case'l':climate = Land; break;
-		case'w':climate = Water; break;
-		default:cout << "No such climate. Enter again!"; return;
+	case'a':climate = Air; break;
+	case'l':climate = Land; break;
+	case'w':climate = Water; break;
+	default:cout << "No such climate. Enter again!"; return;
 	}
 
 	park.makeCage(size, climate);
@@ -142,10 +131,10 @@ void addFood(JurassicPark & park) {
 	cout << endl;
 
 	switch (commandChar) {
-		case'f':park.foodDelivery(foodQuantity, 0, 0); break;
-		case'm':park.foodDelivery(0, 0, foodQuantity); break;
-		case'p':park.foodDelivery(0, foodQuantity, 0); break;
-		default:cout << "No such food. Enter again!"; return;
+	case'f':park.foodDelivery(foodQuantity, 0, 0); break;
+	case'm':park.foodDelivery(0, 0, foodQuantity); break;
+	case'p':park.foodDelivery(0, foodQuantity, 0); break;
+	default:cout << "No such food. Enter again!"; return;
 	}
 }
 
@@ -153,13 +142,13 @@ void help() {
 	cout << "Commands: " << endl;
 	cout << "-----------------------------------------------------------------" << endl;
 	cout << "addDinosaur - adds a new dinosaur;" << endl;
-	cout << "needs -> nameLen, name, gender, era, kindLen, kind, group, food." << endl;
+	cout << "needs -> name, gender, era, kind, group, food." << endl;
 	cout << "-----------------------------------------------------------------" << endl;
 	cout << "createCage - creates a new cage;" << endl;
 	cout << "needs -> size of cage, climate." << endl;
 	cout << "-----------------------------------------------------------------" << endl;
 	cout << "remove - removes a dinosaur;" << endl;
-	cout << "needs -> nameLen, name, gender, era, kindLen, kind, group, food." << endl;
+	cout << "needs -> name, gender, era, kind, group, food." << endl;
 	cout << "-----------------------------------------------------------------" << endl;
 	cout << "addFood - adds food to the park's reserves;" << endl;
 	cout << "needs -> food type, quantity." << endl;
@@ -175,42 +164,55 @@ void help() {
 }
 
 int main() {
+	//JurassicPark park(10);
 
 	JurassicPark park;
-	char command[COMMAND_LEN];
+	ifstream file;
+	file.open("data.txt");
+	file >> park;
+
+	string command;
 	while (true) {
 		cin >> command;
-		
-		if (strncmp(command, "addDinosaur", COMMAND_LEN) == 0) {
+
+		if (command == "addDinosaur") {
 			addDinosaur(park);
 		}
-		else if (strncmp(command, "createCage", COMMAND_LEN) == 0) {
+		else if (command == "createCage") {
 			createCage(park);
 		}
-		else if (strncmp(command, "remove", COMMAND_LEN) == 0) {
+		else if (command == "remove") {
 			removeDino(park);
 		}
-		else if (strncmp(command, "addFood", COMMAND_LEN) == 0) {
+		else if (command == "addFood") {
 			addFood(park);
 		}
-		else if (strncmp(command, "addStaff", COMMAND_LEN) == 0) {
+		else if (command == "addStaff") {
 			int staffToAdd;
 			cout << "Enter the amount of staff to add: ";
 			cin >> staffToAdd;
 			cout << endl;
 			park.addStaff(staffToAdd);
 		}
-		else if (strncmp(command, "help", COMMAND_LEN) == 0) {
+		else if (command == "help") {
 			help();
 		}
-		else if (strncmp(command, "print", COMMAND_LEN) == 0) {
-			park.print();////????
+		else if (command == "print") {
+			park.print();
 		}
-		else if (strncmp(command, "exit", COMMAND_LEN) == 0) {
+		else if (command == "exit") {
+			ofstream file;
+			file.open("data.txt");
+			//proverka
+			file << park;
+			file.close();
 			cout << "Bye!";
 			return 0;
 		}
+		else {
+			cout << "Invalid command!" << endl;
+		}
 	}
-	
+
 	return 0;
 }

@@ -1,24 +1,23 @@
 #pragma once
 #include"Dinosaur.h"
 #include"ParkEnumerables.h"
+#include<vector>
 
 class Cage {
 	int sizeOfCage;
 	Climate climate;
-	Dinosaur*animals;
+	vector<Dinosaur>animals;
 	int size;
 	Era era;
-
-	void copy(const Cage&other);
-	void erase();
+	
 public:
 	Cage(SizeOfCage newSizeOfCage = Medium, Climate newClimate = Land);
-	Cage(const Cage&other);
-	~Cage();
-	Cage&operator=(const Cage&other);
 
 	bool addAnimalInCage(const Dinosaur &newAnimal);
 
 	bool removeAnimalFromCage(const Dinosaur &newAnimal);
 	friend ostream&operator<<(ostream &os, const Cage &cage);
+
+	void saveCage(ostream& file);
+	friend Cage loadCage(istream& file);
 };

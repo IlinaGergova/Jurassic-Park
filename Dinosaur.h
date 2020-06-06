@@ -1,31 +1,31 @@
 #pragma once
 #include"ParkEnumerables.h"
 #include<iostream>
+#include<string>
 using namespace std;
 
 class Dinosaur {
-	char*name;
+	string name;
 	Gender gender;
 	Era era;
 	Group group;
-	char*kind;
+	string kind;
 	Food food;
 
-	void copy(const Dinosaur&other);
-	void erase();
 public:
-	Dinosaur(const char* newName = "", Gender newGender = Male, Era newEra = Triassic, Group newGroup = Herbivore, const char* newKind = "", Food newFood = Plants);
-	Dinosaur(const Dinosaur&other);
-	~Dinosaur();
-	Dinosaur&operator=(const Dinosaur&other);
+	Dinosaur(const string newName = "", Gender newGender = Male, Era newEra = Triassic, Group newGroup = Herbivore, const string newKind = "", Food newFood = Plants);
 
-	char*getName()const;
+	string getName()const;
 	Gender getGender()const;
 	Era getEra() const;
 	Group getGroup() const;
-	char*getKind()const;
+	string getKind()const;
 	Food getFood()const;
 
-	friend bool operator==(const Dinosaur&other1,const Dinosaur&other2);
+	friend bool operator==(const Dinosaur&other1, const Dinosaur&other2);
 	friend ostream&operator<<(ostream &os, const Dinosaur &dino);
+
+	void saveDino(ostream& file);
+	friend Dinosaur loadDino(istream& file);
 };
+

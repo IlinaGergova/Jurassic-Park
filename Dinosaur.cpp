@@ -4,61 +4,22 @@
 using namespace std;
 
 
-void Dinosaur::copy(const Dinosaur&other) {
-	name = new char[strlen(other.name) + 1];
-	strcpy(name, other.name);
-
-	gender = other.gender;
-
-	era = other.era;
-
-	group = other.group;
-
-	kind = new char[strlen(other.kind) + 1];
-	strcpy(kind, other.kind);
-
-	food = other.food;
-}
-
-void Dinosaur::erase() {
-	delete[]name;
-	delete[]kind;
-}
-
-Dinosaur::Dinosaur(const char* newName, Gender newGender, Era newEra, Group newGroup, const char* newKind, Food newFood) {
-	name = new char[strlen(newName) + 1];
-	strcpy(name, newName);
+Dinosaur::Dinosaur(const string newName, Gender newGender, Era newEra, Group newGroup, const string newKind, Food newFood) {
+	name = newName;
 
 	gender = newGender;
 
 	era = newEra;
-	
+
 	group = newGroup;
 
-	kind = new char[strlen(newKind) + 1];
-	strcpy(kind, newKind);
+	kind = newKind;
 
 	food = newFood;
-	
+
 }
 
-Dinosaur::Dinosaur(const Dinosaur&other) {
-	copy(other);
-}
-
-Dinosaur::~Dinosaur() {
-	erase();
-}
-
-Dinosaur&Dinosaur::operator=(const Dinosaur&other) {
-	if (this != &other) {
-		erase();
-		copy(other);
-	}
-	return *this;
-}
-
-char*Dinosaur::getName() const {
+string Dinosaur::getName() const {
 	return name;
 }
 
@@ -74,7 +35,7 @@ Group Dinosaur::getGroup() const {
 	return group;
 }
 
-char*Dinosaur::getKind() const {
+string Dinosaur::getKind() const {
 	return kind;
 }
 
@@ -83,32 +44,73 @@ Food Dinosaur::getFood() const {
 }
 
 bool operator==(const Dinosaur&other1, const Dinosaur&other2) {
-	if (strcmp(other1.name, other2.name) == 0 && other1.gender == other2.gender && other1.era == other2.era &&
+	if (other1.name == other2.name && other1.gender == other2.gender && other1.era == other2.era &&
 		other1.group == other2.group &&
-		strcmp(other1.kind, other2.kind) == 0 && other1.food == other2.food) {
+		other1.kind == other2.kind && other1.food == other2.food) {
 		return true;
 	}
 	return false;
 }
 
-/////////////////////////////////////////////////////////
 ostream&operator<<(ostream &os, const Dinosaur &dino) {
 	os << dino.name << " ";
 	switch (dino.gender) {
-		case Female: os << "female "; break;
-		case Male: os << "male  "; break;
+	case Female: os << "female "; break;
+	case Male: os << "male  "; break;
 	}
 	switch (dino.group) {
-		case Flying: os << "flying "; break;
-		case Aquatic: os << "aquatic "; break;
-		case Herbivore: os << "herbivore "; break;
-		case Carnivore: os << "carnivore "; break;
+	case Flying: os << "flying "; break;
+	case Aquatic: os << "aquatic "; break;
+	case Herbivore: os << "herbivore "; break;
+	case Carnivore: os << "carnivore "; break;
 	}
 	os << dino.kind << " ";
-	switch (dino.group) {
-		case Fish: os << "eats fish" << endl; break;
-		case Meat: os << "eats meat" << endl; break;
-		case Plants: os << "eats plants" << endl; break;
+	switch (dino.food) {
+	case Fish: os << "eats fish" << endl; break;
+	case Meat: os << "eats meat" << endl; break;
+	case Plants: os << "eats plants" << endl; break;
 	}
 	return os;
+}
+
+void Dinosaur::saveDino(ostream& file) {
+	file << '^';
+	file << name <<" "<< gender << " " << era << " " << group << " " << kind << " " << food << '\n';
+}
+Dinosaur loadDino(istream& file) {
+	string name, kind;
+	int gender, era, group, food;
+	file >> name >> gender >> era >> group >> kind >> food;
+
+	Gender g;
+	switch (gender) {
+		case 0:g = Male; break;
+		case 1:g = Female; break;
+	}
+
+	Era e;
+	switch (era) {
+		case 0:e = Triassic; break;
+		case 1:e = Jurassic; break;
+		case 2:e = Cretaceous; break;
+	}
+
+	Group gr;
+	switch (group) {
+		case 0:gr = Flying; break;
+		case 1:gr = Aquatic; break;
+		case 2:gr = Herbivore; break;
+		case 3:gr = Carnivore; break;
+	}
+
+	Food f;
+	switch (food) {
+	case 0:f = Fish; break;
+	case 1:f = Meat; break;
+	case 2:f = Plants; break;
+	}
+
+	Dinosaur dino(name, g, e, gr, kind, f);
+	return dino;
+
 }

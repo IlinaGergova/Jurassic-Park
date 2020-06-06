@@ -109,7 +109,6 @@ Cage loadCage(istream& file) {
 	Cage cage(size, c);
 	char symbol;
 	symbol = file.peek();
-	//cout << "dino:" << symbol << endl;
 	while (symbol == '^' && !file.eof()) {
 		file.get();
 		cage.addAnimalInCage(loadDino(file));

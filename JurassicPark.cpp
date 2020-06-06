@@ -123,13 +123,10 @@ istream& operator>>(istream& is, JurassicPark& park) {
 
 	is.get();
 	symbol = is.peek();
-	//cout << "cage:" << symbol << endl;
 	while (symbol == '#' && !is.eof()) {
 		is.get();
 		park.addCageWithData(loadCage(is));
-		//is.get();
 		symbol = is.peek();
-		//cout << "cage:" << symbol << endl;
 	}
 
 	return is;

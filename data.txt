@@ -1,9 +1,14 @@
-12 45 0 105
+11 42 0 105
 #10 1
+^rex 0 1 2 kl 2
+^rexRex 0 1 2 ko 2
 #10 1
+^marko 0 0 3 re 2
 #10 1
 #10 1
 #10 1
 #10 1
 #1 2
 ^jumanji 1 0 1 lolipop 0
+#1 2
+^dino 1 0 1 kindd 0
